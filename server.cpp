@@ -59,21 +59,31 @@ void runUdpClient(unsigned short port)
 }
 
 
-void runNetwork()
+static void runNetwork()
 {
     char who;
     std::cout << "Do you want to be a server (s) or a client (c) ? ";
     std::cin >> who;
-
     if (who == 's')
-        runUdpServer(50001);
-    else if (who == 'c')
-        runUdpClient(50001);
-    else
     {
-        std::cout << "Unknown option";
+        youAreHost = true;
+        std::cout << "your IP : " << sf::IpAddress::getLocalAddress() << "\n";
+        network->run(bool (true));
+        //server->run();
     }
+    else if (who == 'c')
+    {
+        std::cout << "set server IP: ";
+        std::cin  >> anotherPlayerIP;
+        thisPlayer = 2;
+        youAreHost = false;
+        network->run(bool (false));
+        std::cout << "\n you are player: " << thisPlayer;
+        //client->run();
+    }
+    else std::cout << "Unknown option";
 }
+
 class Network
 {
 
